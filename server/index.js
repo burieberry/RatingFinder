@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
-app.get('/*', (req, res, next) => res.sendFile(path.join(__dirname, 'public/index.html')));
+app.get('/*', (req, res, next) => res.sendFile(path.join(__dirname, '..', 'public/index.html')));
 
 app.use((req, res, next, err) => {
   console.log(err.message);

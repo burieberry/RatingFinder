@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run webpack",
     "start": "node server",
-    "start:dev": "npm run webpack -- -w & DATABASE_URL=postgres:/localhost/stackathon nodemon server --ignore public/ --ignore client/",
+    "start:dev": "npm run webpack -- -w & DATABASE_URL=postgres:/localhost/stackathon nodemon server --ignore public/ --ignore client/ --ignore dist/",
     "webpack": "./node_modules/webpack/bin/webpack.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setLocation } from '../store';
 import GoogleResults from './GoogleResults';
 
 class SearchBox extends Component {
   constructor(props) {
     super(props);
-    this.state = { location: [] };
-    this.focusTextInput = this.focusTextInput.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
-  focusTextInput() {
+  onClick() {
+    const { setLocation } = this.props;
     this.textInput.focus();
+
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('All results:', results);
         service.getDetails({ placeId: results[0].place_id }, (result, status) => {
           console.log('Place details:', result);
-          this.setState({ location: result });
+          setLocation(result);
         })
       }
     });
@@ -27,7 +30,7 @@ class SearchBox extends Component {
 
     autocomplete.addListener('place changed', () => {
       const places = autocomplete.getPlaces();
-      this.focusTextInput();
+      this.onClick();
     });
   }
 
@@ -36,25 +39,28 @@ class SearchBox extends Component {
   }
 
   componentWillUnmount() {
-    this.textInput.focusTextInput('destroy');
+    this.textInput.onClick('destroy');
   }
 
   render() {
-    const { location } = this.state;
-    const { focusTextInput } = this;
+    const { location } = this.props;
+    const { onClick } = this;
 
     return (
       <div>
         <input ref={ input => this.textInput = input } type="text" size="50" />
-        <button type="submit" onClick={ focusTextInput }>Submit</button>
-        <GoogleResults loc={ location } />
-
-        <div className="col-sm-6">
-          <div id="map" style={{ height: '300px' }} />
-        </div>
+        <button type="submit" onClick={ onClick }>Submit</button>
+        <GoogleResults location={ location } />
+        <div id="map" />
       </div>
     )
   }
 }
 
-export default SearchBox;
+const mapStateToProps = ({ location }) => {
+  return { location };
+};
+
+const mapDispatch = { setLocation };
+
+export default connect(mapStateToProps, mapDispatch)(SearchBox);

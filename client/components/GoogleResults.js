@@ -1,21 +1,18 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-// import { getLocation } from '../store';
 
-const GoogleResults = ({ loc }) => {
-  console.log(loc)
+const GoogleResults = ({ location }) => {
   return (
       <div className="col-xs-12 col-sm-4">
         <h2>Google Results:</h2>
         <ul className="list-unstyled">
-          <li>Name: { loc.name }</li>
-          <li>Average Rating: { loc.rating }</li>
-          <li>Address: { loc.formatted_address }</li>
+          <li>Name: { location.name }</li>
+          <li>Average Rating: { location.rating }</li>
+          <li>Address: { location.formatted_address }</li>
           <li>Reviews:
             <ul className="list-unstyled">
               {
-                !loc.reviews ? '' : (
-                  loc.reviews.map(review => {
+                !location.reviews ? '' : (
+                  location.reviews.map(review => {
                     return (
                       <li key={ review.time }>
                         <ul className="list-unstyled">
@@ -31,18 +28,9 @@ const GoogleResults = ({ loc }) => {
               }
             </ul>
           </li>
-          </ul>
+        </ul>
       </div>
   )
 };
 
-
 export default GoogleResults;
-
-// const mapStateToProps = ({ location }) => {
-//   return { location };
-// };
-
-// const mapDispatch = { getLocation };
-
-// export default connect(mapStateToProps, mapDispatch)(GoogleResults);

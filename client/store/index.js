@@ -2,23 +2,19 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
-const GET_LOCATION = 'GET_LOCATION';
+const SET_LOCATION = 'SET_LOCATION';
 
-export const getLocation = (location) => {
+export const setLocation = (location) => {
   return {
-    type: GET_LOCATION,
+    type: SET_LOCATION,
     location
   }
 };
 
-const initialState = {
-  location: 'New York, NY'
-};
-
-const reducer = (state = initialState, action) => {
+const reducer = (state = { location: '' }, action) => {
   switch(action.type) {
-    case GET_LOCATION:
-      return Object.assign({}, state, { location: action.location });
+    case SET_LOCATION:
+      return Object.assign({}, state, { location: action.location || '' });
 
     default:
       return state;

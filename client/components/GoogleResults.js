@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getLocation } from '../store';
-import SearchBox from './SearchBox';
 
-const GoogleResults = ({ location }) => {
+const GoogleResults = ({ loc }) => {
+  console.log(loc)
   return (
       <div>
-        <SearchBox />
-        <li>Name: { location }</li>
+        <li>Name: { loc }</li>
       </div>
   )
 };

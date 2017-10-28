@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import GoogleResults from './GoogleResults';
+import SearchBox from './SearchBox';
 import store, { getLocation } from '../store';
 
 export default class App extends Component {
@@ -12,7 +12,7 @@ export default class App extends Component {
     return (
       <div className="container-fluid">
         <h1>RatingFinder</h1>
-        <Route component={ GoogleResults } />
+        <Route component={ SearchBox } />
       </div>
     );
   }

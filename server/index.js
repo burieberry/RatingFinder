@@ -4,7 +4,14 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const app = express();
 
-const port = process.env.PORT || 3000;
+let config = process.env;
+try {
+  config = require('../config.json');
+}
+catch(ex) {
+
+}
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,6 +30,8 @@ app.use((req, res, next, err) => {
   console.log(err.message);
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
+
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

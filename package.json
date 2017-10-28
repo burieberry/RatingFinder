@@ -20,7 +20,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0-beta.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "node-sass": "^4.5.3",

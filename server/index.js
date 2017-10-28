@@ -24,7 +24,7 @@ app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
 app.set('views', path.join(__dirname, '..', 'public'));
 
-app.get('/', (req, res, next) => res.render('index'));
+app.get('/', (req, res, next) => res.render('index', { GOOGLE_API_KEY: config.GOOGLE_API_KEY }));
 
 app.use((req, res, next, err) => {
   console.log(err.message);

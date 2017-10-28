@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import GoogleResults from './GoogleResults';
+import store, { getLocation } from '../store';
 
-const App = () => {
-  return (
-    <div className="container-fluid">
-      <h1>RatingFinder</h1>
-    </div>
-  );
-};
+export default class App extends Component {
+  componentDidMount() {
+    store.dispatch(getLocation());
+  }
 
-export default App;
+  render() {
+    return (
+      <div className="container-fluid">
+        <h1>RatingFinder</h1>
+        <Route component={ GoogleResults } />
+      </div>
+    );
+  }
+}

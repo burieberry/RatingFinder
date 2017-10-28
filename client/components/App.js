@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import SearchBox from './SearchBox';
-import store, { getLocation } from '../store';
+// import store, { getLocation } from '../store';
 
 export default class App extends Component {
-  componentDidMount() {
-    store.dispatch(getLocation());
-  }
+  // componentDidMount() {
+  //   store.dispatch(getLocation());
+  // }
 
   render() {
     return (

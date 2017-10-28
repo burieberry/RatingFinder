@@ -10,7 +10,16 @@ class SearchBox extends Component {
 
   focusTextInput() {
     this.textInput.focus();
-    this.setState({ location: this.textInput.value });
+    const service = new google.maps.places.PlacesService(document.getElementById('map'));
+    service.textSearch({ query: this.textInput.value}, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log('All results:', results);
+        service.getDetails({ placeId: results[0].place_id }, (result, status) => {
+          console.log('Place details:', result);
+          this.setState({ location: result });
+        })
+      }
+    });
   }
 
   componentDidMount() {
@@ -20,6 +29,10 @@ class SearchBox extends Component {
       const places = autocomplete.getPlaces();
       this.focusTextInput();
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
   }
 
   componentWillUnmount() {
@@ -35,7 +48,10 @@ class SearchBox extends Component {
         <input ref={ input => this.textInput = input } type="text" size="50" />
         <button type="submit" onClick={ focusTextInput }>Submit</button>
         <GoogleResults loc={ location } />
-        <div id="map" />
+
+        <div className="col-sm-6">
+          <div id="map" style={{ height: '300px' }} />
+        </div>
       </div>
     )
   }

@@ -1,14 +1,14 @@
 import React from 'react';
 
-const GoogleResults = ({ location, head }) => {
+const Results = ({ location, head }) => {
   return (
       <div className="col-xs-12 col-sm-4">
-        <h2>{ head } Results:</h2>
+        <h2>{ head } Reviews:</h2>
         <ul className="list-unstyled">
           <li>Name: { location.name }</li>
           <li>Average Rating: { location.rating }</li>
-          {/* <li>Address: { location.formatted_address }</li> */}
-          <li>Reviews:
+          <li>Address: { location.formatted_address }</li>
+          <li><strong>Reviews:</strong>
             <ul className="list-unstyled">
               {
                 !location.reviews ? '' : (
@@ -33,4 +33,4 @@ const GoogleResults = ({ location, head }) => {
   )
 };
 
-export default GoogleResults;
+export default Results;

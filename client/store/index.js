@@ -8,8 +8,7 @@ const SET_YELP_LOCATION = 'SET_YELP_LOCATION';
 
 const initialState = {
   location: '',
-  yelpLocation: '',
-  response: ''
+  yelpLocation: ''
 }
 
 export const setLocation = (location) => {
@@ -27,8 +26,8 @@ export const setYelpLocation = (yelpLocation) => {
 };
 
 export const searchYelp = (place) => dispatch => {
-  console.log(place)
-  return axios.post('/api', { term: 'four barrel coffee', location: 'San Francisco, Ca' })
+  console.log('place: ', place)
+  return axios.post('/api', { term: place.split(',')[0], location: place })
     .then(res => res.data)
     .then(resp => {
       console.log(resp)
@@ -36,16 +35,6 @@ export const searchYelp = (place) => dispatch => {
     })
     .catch(err => console.log(`error in fetchYelp: ${ err }`));
 }
-
-// export const fetchYelp = () => dispatch => {
-//   return axios.get('/api')
-//     .then(res => res.data)
-//     .then(resp => {
-//       console.log(resp)
-//       dispatch(setLocation(resp))
-//     })
-//     .catch(err => console.log(`error in fetchYelp: ${ err }`));
-// }
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {

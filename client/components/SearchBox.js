@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setLocation, searchYelp } from '../store';
-import GoogleResults from './GoogleResults';
+import Results from './Results';
 
 class SearchBox extends Component {
   constructor(props) {
@@ -51,8 +51,10 @@ class SearchBox extends Component {
       <div>
         <input ref={ input => this.textInput = input } type="text" size="50" />
         <button type="submit" onClick={ onClick }>Submit</button>
-        <GoogleResults location={ location } head="Google" />
-        <GoogleResults location={ yelpLocation } head="Yelp" />
+        <div className="row">
+          <Results location={ location } head="Google" />
+          <Results location={ yelpLocation } head="Yelp" />
+        </div>
         <div id="map" />
       </div>
     )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setLocation } from '../store';
+import { setLocation, searchYelp } from '../store';
 import GoogleResults from './GoogleResults';
 
 class SearchBox extends Component {
@@ -10,7 +10,7 @@ class SearchBox extends Component {
   }
 
   onClick() {
-    const { setLocation } = this.props;
+    const { setLocation, searchYelp } = this.props;
     this.textInput.focus();
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
@@ -19,6 +19,7 @@ class SearchBox extends Component {
         console.log('All results:', results);
         service.getDetails({ placeId: results[0].place_id }, (result, status) => {
           console.log('Place details:', result);
+          searchYelp(this.textInput.value);
           setLocation(result);
         })
       }
@@ -43,24 +44,25 @@ class SearchBox extends Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, yelpLocation } = this.props;
     const { onClick } = this;
 
     return (
       <div>
         <input ref={ input => this.textInput = input } type="text" size="50" />
         <button type="submit" onClick={ onClick }>Submit</button>
-        <GoogleResults location={ location } />
+        <GoogleResults location={ location } head="Google" />
+        <GoogleResults location={ yelpLocation } head="Yelp" />
         <div id="map" />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ location }) => {
-  return { location };
+const mapStateToProps = ({ location, yelpLocation }) => {
+  return { location, yelpLocation };
 };
 
-const mapDispatch = { setLocation };
+const mapDispatch = { setLocation, searchYelp };
 
 export default connect(mapStateToProps, mapDispatch)(SearchBox);

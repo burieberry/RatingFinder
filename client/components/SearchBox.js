@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setLocation, searchYelp } from '../store';
+import { setLocation, searchYelp, searchFoursquare } from '../store';
 import Results from './Results';
 
 class SearchBox extends Component {
@@ -10,16 +10,18 @@ class SearchBox extends Component {
   }
 
   onClick() {
-    const { setLocation, searchYelp } = this.props;
+    const { setLocation, searchYelp, searchFoursquare } = this.props;
     this.textInput.focus();
+    const place = this.textInput.value.split(',')[0];
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log('All results:', results);
+        // console.log('All results:', results);
         service.getDetails({ placeId: results[0].place_id }, (result, status) => {
-          console.log('Place details:', result);
-          searchYelp(this.textInput.value);
+          // console.log('Place details:', result);
+          searchYelp(place);
+          searchFoursquare(place);
           setLocation(result);
         })
       }
@@ -35,16 +37,16 @@ class SearchBox extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps)
+  // }
 
   componentWillUnmount() {
     this.textInput.onClick('destroy');
   }
 
   render() {
-    const { location, yelpLocation } = this.props;
+    const { location, yelpLocation, fsLocation } = this.props;
     const { onClick } = this;
 
     return (
@@ -54,6 +56,7 @@ class SearchBox extends Component {
         <div className="row">
           <Results location={ location } head="Google" />
           <Results location={ yelpLocation } head="Yelp" />
+          <Results location={ fsLocation } head="Foursquare" />
         </div>
         <div id="map" />
       </div>
@@ -61,10 +64,10 @@ class SearchBox extends Component {
   }
 }
 
-const mapStateToProps = ({ location, yelpLocation }) => {
-  return { location, yelpLocation };
+const mapStateToProps = ({ location, yelpLocation, fsLocation }) => {
+  return { location, yelpLocation, fsLocation };
 };
 
-const mapDispatch = { setLocation, searchYelp };
+const mapDispatch = { setLocation, searchYelp, searchFoursquare };
 
 export default connect(mapStateToProps, mapDispatch)(SearchBox);

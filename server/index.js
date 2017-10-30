@@ -22,6 +22,7 @@ app.engine('html', ejs.renderFile);
 app.set('views', path.join(__dirname, '..', 'public'));
 
 
+// TO DO: make it so that it works when token is refreshed
 // Get Yelp access token:
 const yelp = require('yelp-fusion');
 // const token = yelp.accessToken(config.YELP_CLIENT_ID, config.YELP_CLIENT_SECRET)
@@ -31,36 +32,27 @@ const yelp = require('yelp-fusion');
 // from token stored in secret file
 const client = yelp.client(config.TOKEN);
 
-// client.search({
-//   term: 'Four Barrel Coffee',
-//   location: 'san francisco, ca'
-// }).then(response => {
-//   console.log(response.jsonBody);
-//   console.log(response.jsonBody.businesses[0].name);
-// }).catch(e => {
-//   console.log(e);
-// });
+const configData = {
+  GOOGLE_API_KEY: config.GOOGLE_API_KEY,
+  FS_CLIENT_ID: config.FS_CLIENT_ID,
+  FS_CLIENT_SECRET: config.FS_CLIENT_SECRET
+};
 
-app.post('/api', (req, res, next) => {
-  console.log('body: ', req.body)
+app.get('/', (req, res, next) => res.render('index', configData));
+
+app.post('/api/yelp', (req, res, next) => {
+  // console.log('body: ', req.body)
   client.search({ term: req.body.term, location: req.body.location })
     .then(response => {
-      console.log(response.jsonBody.businesses[0]);
+      // console.log(response.jsonBody.businesses[0]);
       res.send(response.jsonBody.businesses[0]);
     })
     .catch(next)
 });
 
-const configData = {
-  GOOGLE_API_KEY: config.GOOGLE_API_KEY,
-  // TOKEN: config.TOKEN
-}
-
-app.get('/', (req, res, next) => res.render('index', configData));
-
 app.use((req, res, next, err) => {
   console.log(err.message);
-  res.status(err.status || 500).send(err.message || 'Internal server error.');
+  // res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
 
 const port = process.env.PORT || 3000;

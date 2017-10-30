@@ -6,6 +6,9 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: [ '.json' ]
+  },
   module: {
     loaders: [
       {

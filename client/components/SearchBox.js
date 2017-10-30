@@ -13,6 +13,8 @@ class SearchBox extends Component {
     const { setLocation, searchYelp, searchFoursquare } = this.props;
     this.textInput.focus();
     const place = this.textInput.value.split(',')[0];
+    searchYelp(place);
+    searchFoursquare(place);
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {
@@ -20,8 +22,6 @@ class SearchBox extends Component {
         // console.log('All results:', results);
         service.getDetails({ placeId: results[0].place_id }, (result, status) => {
           // console.log('Place details:', result);
-          searchYelp(place);
-          searchFoursquare(place);
           setLocation(result);
         })
       }
@@ -36,10 +36,6 @@ class SearchBox extends Component {
       this.onClick();
     });
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps)
-  // }
 
   componentWillUnmount() {
     this.textInput.onClick('destroy');

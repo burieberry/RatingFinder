@@ -2,7 +2,12 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import config from '../../config.json';
+
+let config = process.env;
+try {
+  config = require('../../config.json');
+}
+catch(ex) {}
 
 const SET_LOCATION = 'SET_LOCATION';
 const SET_YELP_LOCATION = 'SET_YELP_LOCATION';

@@ -4,15 +4,24 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import config from '../../config.json';
 
+const GET_COORDINATES = 'GET_COORDINATES';
 const SET_LOCATION = 'SET_LOCATION';
 const SET_YELP_LOCATION = 'SET_YELP_LOCATION';
 const SET_FS_LOCATION = 'SET_FS_LOCATION';
 
 const initialState = {
+  coordinates: '',
   location: '',
   yelpLocation: '',
   fsLocation: ''
-}
+};
+
+const getCoordinates = (coordinates) => {
+  return {
+    type: GET_COORDINATES,
+    coordinates
+  }
+};
 
 export const setLocation = (location) => {
   return {
@@ -33,6 +42,16 @@ export const setFsLocation = (fsLocation) => {
     type: SET_FS_LOCATION,
     fsLocation
   }
+};
+
+export const fetchCoordinates = (placeId) => dispatch => {
+  const key = config.GOOGLE_API_KEY;
+  return axios.get(`https://maps.google.com/maps/api/geocode/json?key=${key}&place_id=${placeId}`);
+    .then(res => res.data)
+    .then(coordinates => {
+      console.log(coordinates.results[0].geometry.location);
+      dispatch(getCoordinates(coordinates.results[0].geometry.location));
+    })
 };
 
 export const searchYelp = (place) => dispatch => {
@@ -68,6 +87,9 @@ export const searchFoursquare = (query) => dispatch => {
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
+    case GET_COORDINATES:
+      return Object.assign({}, state, { coordinates: actions.coordinates });
+
     case SET_LOCATION:
       return Object.assign({}, state, { location: action.location || '' });
 

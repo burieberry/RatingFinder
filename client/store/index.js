@@ -60,7 +60,7 @@ export const searchFoursquare = (location, place) => dispatch => {
   return axios.get(queryUrl)
     .then(res => res.data)
     .then(venue => {
-      // console.log('foursquare: ', venue.response.venues[0]);
+      console.log('foursquare: ', venue.response.venues[0]);
       dispatch(setFsLocation(venue.response.venues[0]));
     })
 }

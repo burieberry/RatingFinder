@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Results = ({ location, head }) => {
   return (
@@ -8,6 +9,8 @@ const Results = ({ location, head }) => {
           <li>Name: { location.name }</li>
           <li>Average Rating: { location.rating }</li>
           <li>Address: { location.formatted_address }</li>
+          <li>See more on <Link to={ `${location.url}` }>{ head }</Link></li>
+          <li><Link to={`${ location.website }`}>Company website</Link></li>
           <li><strong>Reviews:</strong>
             <ul className="list-unstyled">
               {
@@ -18,6 +21,7 @@ const Results = ({ location, head }) => {
                         <ul className="list-unstyled">
                           <li>Rating: { review.rating }</li>
                           <li>By: { review.author_name }</li>
+                          <li>{ review.relative_time_description }</li>
                           <li>Description: { review.text }</li>
                         </ul>
                         <br />

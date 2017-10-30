@@ -32,34 +32,27 @@ const yelp = require('yelp-fusion');
 // from token stored in secret file
 const client = yelp.client(config.TOKEN);
 
-app.post('/api', (req, res, next) => {
-  console.log('body: ', req.body)
+const configData = {
+  GOOGLE_API_KEY: config.GOOGLE_API_KEY,
+  FS_CLIENT_ID: config.FS_CLIENT_ID,
+  FS_CLIENT_SECRET: config.FS_CLIENT_SECRET
+};
+
+app.get('/', (req, res, next) => res.render('index', configData));
+
+app.post('/api/yelp', (req, res, next) => {
+  // console.log('body: ', req.body)
   client.search({ term: req.body.term, location: req.body.location })
     .then(response => {
-      console.log(response.jsonBody.businesses[0]);
+      // console.log(response.jsonBody.businesses[0]);
       res.send(response.jsonBody.businesses[0]);
     })
     .catch(next)
 });
 
-const configData = {
-  GOOGLE_API_KEY: config.GOOGLE_API_KEY,
-  FS_CLIENT_ID: config.FS_CLIENT_ID,
-  FS_CLIENT_SECRET: config.FS_CLIENT_SECRET,
-  // TOKEN: config.TOKEN
-}
-
-app.get('/', (req, res, next) => res.render('index', configData));
-
-// const fsQuery = {
-//   date: 'v=20171029',
-//   latlng: '40.7050881,-74.0113487',
-//   query: ''
-// }
-
 app.use((req, res, next, err) => {
   console.log(err.message);
-  res.status(err.status || 500).send(err.message || 'Internal server error.');
+  // res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
 
 const port = process.env.PORT || 3000;

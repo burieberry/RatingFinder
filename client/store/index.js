@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import config from '../../config.json';
 
 const SET_LOCATION = 'SET_LOCATION';
 const SET_YELP_LOCATION = 'SET_YELP_LOCATION';
@@ -27,7 +28,7 @@ export const setYelpLocation = (yelpLocation) => {
   }
 };
 
-export const setFSLocation = (fsLocation) => {
+export const setFsLocation = (fsLocation) => {
   return {
     type: SET_FS_LOCATION,
     fsLocation
@@ -36,29 +37,32 @@ export const setFSLocation = (fsLocation) => {
 
 export const searchYelp = (place) => dispatch => {
   // console.log('place: ', place)
-  return axios.post('/api', { term: place.split(',')[0], location: place })
+  return axios.post('/api/yelp', { location: place })
     .then(res => res.data)
-    .then(resp => {
+    .then(venue => {
       // console.log(resp)
-      dispatch(setYelpLocation(resp))
+      dispatch(setYelpLocation(venue))
     })
-    .catch(err => console.log(`error in fetchYelp: ${ err }`));
 }
 
 export const searchFoursquare = (query) => dispatch => {
-  const fsQuery = {
-    date: '20171029',
-    ll: '40.7050881,-74.0113487',
-    query
-  }
+  const fsConfig = {
+    searchApi: 'https://api.foursquare.com/v2/venues/search',
+    version: '20171029',
+    clientId: config.FS_CLIENT_ID,
+    clientSecret: config.FS_CLIENT_SECRET,
+    ll: '40.78,-73.96',
+  };
 
-  const searchStr = `v=${fsQuery.date}&ll=${fsQuery.ll}&query=${query}`;
-  console.log('query: ', query, 'searchStr: ', searchStr);
-  return axios.get(`https://api.foursquare.com/v2/venues/search?${ searchStr }`)
+  const { searchApi, version, clientId, clientSecret, ll } = fsConfig;
+
+  const queryUrl = `${searchApi}?v=${version}&ll=${ll}&query=${query}&client_id=${clientId}&client_secret=${clientSecret}`;
+
+  return axios.get(queryUrl)
     .then(res => res.data)
-    .then(resp => {
-      console.log('foursquare: ', resp);
-
+    .then(venue => {
+      // console.log('foursquare: ', venue.response.venues[0]);
+      dispatch(setFsLocation(venue.response.venues[0]));
     })
 }
 

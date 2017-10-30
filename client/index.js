@@ -5,19 +5,12 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import store from './store';
 
-const Main = () => {
-  const root = document.getElementById('root');
-  const config = root.dataset.foursquare.split(',');
-  const fsId = config[0];
-  const fsSecret = config[1];
-
-  return (
-    <Provider store={ store }>
-      <Router>
-        <App fsId={ fsId } fsSecret={ fsSecret } />
-      </Router>
-    </Provider>
-  )
-}
+const Main = () => (
+  <Provider store={ store }>
+    <Router>
+      <App />
+    </Router>
+  </Provider>
+);
 
 ReactDOM.render(<Main />, document.getElementById('root'));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setLocation, searchYelp, searchFoursquare } from '../store';
 import Results from './Results';
+import axios from 'axios';
 
 class SearchBox extends Component {
   constructor(props) {
@@ -9,21 +10,32 @@ class SearchBox extends Component {
     this.onClick = this.onClick.bind(this);
   }
 
-  onClick() {
+  onClick(ev) {
+    ev.preventDefault();
     const { setLocation, searchYelp, searchFoursquare } = this.props;
     this.textInput.focus();
     const place = this.textInput.value.split(',')[0];
-    searchYelp(place);
-    searchFoursquare(place);
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         // console.log('All results:', results);
-        service.getDetails({ placeId: results[0].place_id }, (result, status) => {
+
+        const placeId = results[0].place_id;
+        service.getDetails({ placeId }, (result, status) => {
           // console.log('Place details:', result);
           setLocation(result);
-        })
+        });
+
+        const geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${googleKey}`;
+        return axios.get(geocodeURL)
+          .then(res => res.data)
+          .then(response => {
+            // console.log(response);
+            const { location } = response.results[0].geometry;
+            searchYelp(location, place);
+            searchFoursquare(location, place);
+          })
       }
     });
   }

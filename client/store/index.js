@@ -34,27 +34,27 @@ export const setFsLocation = (fsLocation) => {
   }
 };
 
-export const searchYelp = (place) => dispatch => {
-  // console.log('place: ', place)
-  return axios.post('/api/yelp', { location: place })
+export const searchYelp = (location, place) => dispatch => {
+  // console.log(location)
+  return axios.post('/api/yelp', { latitude: location.lat, longitude: location.lng, term: place })
     .then(res => res.data)
     .then(venue => {
-      // console.log(resp)
+      // console.log(venue)
       dispatch(setYelpLocation(venue))
     })
 }
 
-export const searchFoursquare = (query) => dispatch => {
+export const searchFoursquare = (location, place) => dispatch => {
   const fsConfig = {
     searchApi: 'https://api.foursquare.com/v2/venues/search',
     version: '20171029',
     clientId: fsId,
     clientSecret: fsSecret,
-    ll: '40.78,-73.96',
+    ll: `${location.lat},${location.lng}`,
+    query: place
   };
 
-  const { searchApi, version, clientId, clientSecret, ll } = fsConfig;
-
+  const { searchApi, version, clientId, clientSecret, ll, query } = fsConfig;
   const queryUrl = `${searchApi}?v=${version}&ll=${ll}&query=${query}&client_id=${clientId}&client_secret=${clientSecret}`;
 
   return axios.get(queryUrl)

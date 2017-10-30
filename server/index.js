@@ -41,8 +41,8 @@ const configData = {
 app.get('/', (req, res, next) => res.render('index', configData));
 
 app.post('/api/yelp', (req, res, next) => {
-  // console.log('body: ', req.body)
-  client.search({ term: req.body.term, location: req.body.location })
+  const { latitude, longitude, term } = req.body;
+  client.search({ latitude, longitude, term })
     .then(response => {
       // console.log(response.jsonBody.businesses[0]);
       res.send(response.jsonBody.businesses[0]);

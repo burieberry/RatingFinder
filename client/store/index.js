@@ -3,12 +3,6 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
-let config = process.env;
-try {
-  config = require('../../config.json');
-}
-catch(ex) {}
-
 const SET_LOCATION = 'SET_LOCATION';
 const SET_YELP_LOCATION = 'SET_YELP_LOCATION';
 const SET_FS_LOCATION = 'SET_FS_LOCATION';
@@ -54,8 +48,8 @@ export const searchFoursquare = (query) => dispatch => {
   const fsConfig = {
     searchApi: 'https://api.foursquare.com/v2/venues/search',
     version: '20171029',
-    clientId: config.FS_CLIENT_ID,
-    clientSecret: config.FS_CLIENT_SECRET,
+    clientId: fsId,
+    clientSecret: fsSecret,
     ll: '40.78,-73.96',
   };
 

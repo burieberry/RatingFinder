@@ -22,6 +22,7 @@ app.engine('html', ejs.renderFile);
 app.set('views', path.join(__dirname, '..', 'public'));
 
 
+// TO DO: make it so that it works when token is refreshed
 // Get Yelp access token:
 const yelp = require('yelp-fusion');
 // const token = yelp.accessToken(config.YELP_CLIENT_ID, config.YELP_CLIENT_SECRET)
@@ -30,16 +31,6 @@ const yelp = require('yelp-fusion');
 
 // from token stored in secret file
 const client = yelp.client(config.TOKEN);
-
-// client.search({
-//   term: 'Four Barrel Coffee',
-//   location: 'san francisco, ca'
-// }).then(response => {
-//   console.log(response.jsonBody);
-//   console.log(response.jsonBody.businesses[0].name);
-// }).catch(e => {
-//   console.log(e);
-// });
 
 app.post('/api', (req, res, next) => {
   console.log('body: ', req.body)
@@ -53,10 +44,18 @@ app.post('/api', (req, res, next) => {
 
 const configData = {
   GOOGLE_API_KEY: config.GOOGLE_API_KEY,
+  FS_CLIENT_ID: config.FS_CLIENT_ID,
+  FS_CLIENT_SECRET: config.FS_CLIENT_SECRET,
   // TOKEN: config.TOKEN
 }
 
 app.get('/', (req, res, next) => res.render('index', configData));
+
+// const fsQuery = {
+//   date: 'v=20171029',
+//   latlng: '40.7050881,-74.0113487',
+//   query: ''
+// }
 
 app.use((req, res, next, err) => {
   console.log(err.message);

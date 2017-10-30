@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root" data-foursquare=<%= [ FS_CLIENT_ID, FS_CLIENT_SECRET ] %>></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_API_KEY %>&libraries=places"></script>
   <script src="/dist/bundle.js"></script>
 </body>

@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setLocation, searchYelp } from '../store';
+import { setLocation, searchYelp, searchFoursquare } from '../store';
 import Results from './Results';
 
 class SearchBox extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.onClick = this.onClick.bind(this);
   }
 
   onClick() {
-    const { setLocation, searchYelp } = this.props;
+    const { setLocation, searchYelp, searchFoursquare } = this.props;
     this.textInput.focus();
+    searchYelp(this.textInput.value);
+    searchFoursquare(this.textInput.value);
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log('All results:', results);
+        // console.log('All results:', results);
         service.getDetails({ placeId: results[0].place_id }, (result, status) => {
-          console.log('Place details:', result);
-          searchYelp(this.textInput.value);
+          // console.log('Place details:', result);
           setLocation(result);
         })
       }
@@ -35,9 +37,9 @@ class SearchBox extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps)
+  // }
 
   componentWillUnmount() {
     this.textInput.onClick('destroy');
@@ -54,6 +56,7 @@ class SearchBox extends Component {
         <div className="row">
           <Results location={ location } head="Google" />
           <Results location={ yelpLocation } head="Yelp" />
+          <Results location={ yelpLocation } head="Foursquare" />
         </div>
         <div id="map" />
       </div>
@@ -65,6 +68,6 @@ const mapStateToProps = ({ location, yelpLocation }) => {
   return { location, yelpLocation };
 };
 
-const mapDispatch = { setLocation, searchYelp };
+const mapDispatch = { setLocation, searchYelp, searchFoursquare };
 
 export default connect(mapStateToProps, mapDispatch)(SearchBox);

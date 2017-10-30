@@ -13,7 +13,7 @@ export default class App extends Component {
     return (
       <div className="container-fluid">
         <h1>RatingFinder</h1>
-        <Route component={ SearchBox } />
+        <Route render={() => <SearchBox { ...this.props } /> } />
       </div>
     );
   }

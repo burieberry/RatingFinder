@@ -64,8 +64,8 @@ class SearchBox extends Component {
 
     return (
       <div>
-        <input ref={ input => this.textInput = input } type="text" size="50" />
-        <button type="submit" onClick={ onClick }>Submit</button>
+        <input ref={ input => this.textInput = input } type="text" size="50" className="form-control-lg" />
+        <button type="submit" onClick={ onClick } className="btn btn-success">Submit</button>
         <h2>{ location.name }</h2>
         { location.formatted_address }
         { !location.website ? '' : <span> • <Link to={ `${ location.website }`}>Company website</Link></span> }

@@ -7,7 +7,7 @@ const Results = ({ location, head, yelpReviews, fsReviews }) => {
       {
         !location ? '' : (
           <div>
-            <h3>{ head } Reviews:</h3>
+            <h3><Link className="linkToPage" to={ `${ location.shortUrl ? location.shortUrl : location.url }` }>{ head } Reviews</Link></h3>
               <h4><strong>Average Rating:</strong> <span className="rating">{ location.rating ? location.rating : 'Not rated' }</span></h4>
               <h4>Reviews</h4>
                 { location.reviews ? <GoogleReviews reviews={ location.reviews } /> : null }
@@ -81,6 +81,7 @@ const FsReviews = ({ reviews }) => {
                   <li>By: { review.user.firstName }</li>
                   <li><em>{ new Date(review.createdAt * 1000).toDateString() }</em></li>
                   <li><i className="fa fa-quote-left" aria-hidden="true" /> { review.text } <i className="fa fa-quote-right" aria-hidden="true" /></li>
+                  <li>{ review.photourl ? <img src={`${ review.photourl }`} /> : null }</li>
                 </ul>
                 <br />
               </li>
@@ -93,3 +94,7 @@ const FsReviews = ({ reviews }) => {
 };
 
 export default Results;
+
+
+// <p><strong># of ratings:</strong> { location ? location.review_count : null }</p>
+// <p><strong>Price level:</strong> { location ? location.price : null }</p>

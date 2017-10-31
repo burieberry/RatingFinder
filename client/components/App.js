@@ -15,6 +15,7 @@ export default class App extends Component {
       <div className="container-fluid">
         <h1>RatingFinder</h1>
         <Route component={ SearchBox } />
+        <div id="map" style={{ height: '300px' }} />
       </div>
     );
   }

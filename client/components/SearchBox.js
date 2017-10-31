@@ -61,15 +61,21 @@ class SearchBox extends Component {
         </div>
         <div id="result-hed">
           <h2>{ location.name }</h2>
-          { location.formatted_address }
-          { !location.website ? '' : <span> • <Link to={ `${ location.website }`}>Company website</Link></span> }
+          <Link className="linkToPage" to={ `${ location.url }` }>{ location.formatted_address }</Link>
+          { !location.website ? '' : <span> • { location.formatted_phone_number } • <Link to={ `${ location.website }`}>Company website</Link></span>}
+          <p>
+          { !yelpLocation.price ? null : <strong>{ yelpLocation.price } </strong> }
+          { !yelpLocation.categories ? null :
+                yelpLocation.categories.map(cat => (<span key={ cat.alias }><strong className="badge badge-secondary">{ cat.title }</strong> </span>)) }</p>
+          <div className="profile-img">
+            <img src={ `${ yelpLocation.image_url }` } width="250" />
+          </div>
         </div>
         <div className="row">
           <Results location={ location } head="Google" />
           <Results location={ yelpLocation } yelpReviews={ yelpReviews } head="Yelp" />
           <Results location={ fsLocation } fsReviews={ fsReviews } head="Foursquare" />
         </div>
-        <div id="map" />
       </div>
     )
   }
@@ -82,3 +88,7 @@ const mapStateToProps = ({ location, yelpLocation, yelpReviews, fsLocation, fsRe
 const mapDispatch = { setLocation, searchYelp, searchFoursquare };
 
 export default connect(mapStateToProps, mapDispatch)(SearchBox);
+
+// { !yelpLocation.photos ? null :
+//   yelpLocation.photos.map(photo => (<img key={ `${ photo }x` } src={ `${ photo }` } width="300" />))
+// }

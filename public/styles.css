@@ -82,6 +82,10 @@ footer {
   min-height: 600px;
 }
 
+.profile-img {
+  float: left;
+}
+
 .review-list {
   max-height: 1000px;
   overflow-y: scroll;

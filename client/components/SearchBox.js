@@ -15,7 +15,9 @@ class SearchBox extends Component {
     ev.preventDefault();
     const { setLocation, searchYelp, searchFoursquare } = this.props;
     // this.textInput.focus();
+    this.props.history.push({ search: `?search=${ this.textInput.value }` });
     const place = this.textInput.value.split(',')[0];
+
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {

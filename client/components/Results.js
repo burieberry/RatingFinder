@@ -4,16 +4,22 @@ import { Link } from 'react-router-dom';
 const Results = ({ location, head, yelpReviews, fsReviews }) => {
   return (
       <div className="col-xs-12 col-sm-4">
-        <h3>{ head } Reviews:</h3>
-        <ul className="list-unstyled">
-          <li><strong>Average Rating:</strong> { location.rating ? location.rating : 'Not rated' }</li>
-          <li><strong>Reviews:</strong>
-            { location.reviews ? <GoogleReviews reviews={ location.reviews } /> : null }
-            { yelpReviews ? <YelpReviews reviews={ yelpReviews } /> : null }
-            { fsReviews ? <FsReviews reviews={ fsReviews } /> : null }
-          </li>
-          <li><Link to={ `${ location.shortUrl ? location.shortUrl : location.url }` }>{ head } page</Link></li>
-        </ul>
+      {
+        !location ? '' : (
+          <div>
+            <h3>{ head } Reviews:</h3>
+            <ul className="list-unstyled">
+              <li><strong>Average Rating:</strong> { location.rating ? location.rating : 'Not rated' }</li>
+              <li><strong>Reviews:</strong>
+                { location.reviews ? <GoogleReviews reviews={ location.reviews } /> : null }
+                { yelpReviews ? <YelpReviews reviews={ yelpReviews } /> : null }
+                { fsReviews ? <FsReviews reviews={ fsReviews } /> : null }
+              </li>
+              <li><Link to={ `${ location.shortUrl ? location.shortUrl : location.url }` }>{ head } page</Link></li>
+            </ul>
+          </div>
+          )
+      }
       </div>
   )
 };

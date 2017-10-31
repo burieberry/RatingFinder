@@ -14,17 +14,14 @@ class SearchBox extends Component {
   onClick(ev) {
     ev.preventDefault();
     const { setLocation, searchYelp, searchFoursquare } = this.props;
-    this.textInput.focus();
+    // this.textInput.focus();
     const place = this.textInput.value.split(',')[0];
 
     const service = new google.maps.places.PlacesService(document.getElementById('map'));
     service.textSearch({ query: this.textInput.value}, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        // console.log('All results:', results);
-
         const placeId = results[0].place_id;
         service.getDetails({ placeId }, (result, status) => {
-          // console.log('Place details:', result);
           setLocation(result);
         });
 
@@ -32,7 +29,6 @@ class SearchBox extends Component {
         return axios.get(geocodeURL)
           .then(res => res.data)
           .then(response => {
-            // console.log(response);
             const { location } = response.results[0].geometry;
             searchYelp(location, place);
             searchFoursquare(location, place);
@@ -43,16 +39,11 @@ class SearchBox extends Component {
 
   componentDidMount() {
     const autocomplete = new google.maps.places.SearchBox(this.textInput);
-
     autocomplete.addListener('place changed', () => {
       const places = autocomplete.getPlaces();
-      this.onClick();
+      // this.onClick();
     });
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('next: ', nextProps)
-  // }
 
   componentWillUnmount() {
     this.textInput.onClick('destroy');
@@ -63,12 +54,16 @@ class SearchBox extends Component {
     const { onClick } = this;
 
     return (
-      <div>
-        <input ref={ input => this.textInput = input } type="text" size="50" className="form-control-lg" />
-        <button type="submit" onClick={ onClick } className="btn btn-success">Submit</button>
-        <h2>{ location.name }</h2>
-        { location.formatted_address }
-        { !location.website ? '' : <span> • <Link to={ `${ location.website }`}>Company website</Link></span> }
+      <div id="container">
+        <div id="searchBox">
+          <input ref={ input => this.textInput = input } type="text" id="searchBar" autoFocus="true" />
+          <button type="submit" onClick={ onClick } id="search-btn" className="btn btn-lg"><i className="fa fa-search" aria-hidden="true" /></button>
+        </div>
+        <div id="result-hed">
+          <h2>{ location.name }</h2>
+          { location.formatted_address }
+          { !location.website ? '' : <span> • <Link to={ `${ location.website }`}>Company website</Link></span> }
+        </div>
         <div className="row">
           <Results location={ location } head="Google" />
           <Results location={ yelpLocation } yelpReviews={ yelpReviews } head="Yelp" />

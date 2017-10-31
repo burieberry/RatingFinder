@@ -13,7 +13,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <h1>RatingFinder <i className="fa fa-search" aria-hidden="true" /></h1>
+        <h1>RatingFinder</h1>
         <Route component={ SearchBox } />
       </div>
     );

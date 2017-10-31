@@ -1,12 +1,7 @@
-/** {
-  padding: 0;
-  margin: 0;
-}*/
-
+html,
 body {
-  /*background: url(https://static.pexels.com/photos/414691/pexels-photo-414691.jpeg);*/
-  /*background-size: cover;
-  background-repeat: no-repeat;*/
+  background-color: rgb(255, 253, 251);
+  color: #353A47;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
 }
@@ -20,20 +15,73 @@ img {
   max-height: 100%;
 }
 
+ul {
+  list-style-type: none;
+}
+
 h1 {
+  color: #c61768;
   font-family: 'Love Ya Like A Sister', cursive;
   font-size: 3em;
+  margin: 20px;
 }
 
 h2 {
+  color: #ec7fba;
   font-size: 2em;
+  font-weight: 700;
 }
 
 h3 {
+  color: #6174c6;
   font-size: 1.5em;
 }
 
+#container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
 
+#result-hed {
+  margin: 1em 0;
+}
 
-/*font-family: 'Love Ya Like A Sister', cursive;
-font-family: 'Open Sans', sans-serif;*/
+#searchBox {
+  margin: 2em auto;
+  max-width: 600px;
+}
+
+#searchBar {
+  height: 50px;
+  background-color: rgb(255, 253, 251);
+  border: none;
+  border-bottom: 1px solid #999;
+  font-size: 40px;
+  font-weight: 300;
+  padding: 0;
+}
+
+#searchBar:active,
+#searchBar:focus {
+  outline: 0;
+}
+
+#search-btn {
+  position: absolute;
+  background-color: #eef;
+  font-size: 24px
+}
+
+.rating {
+  color: #e83e8c;
+  font-weight: 700;
+}
+
+.review {
+  padding: 1em;
+}
+
+.linkToPage {
+  color: #6174c6;
+  font-weight: 700;
+}

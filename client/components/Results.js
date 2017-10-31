@@ -6,19 +6,14 @@ const Results = ({ location, head, yelpReviews, fsReviews }) => {
       <div className="col-xs-12 col-sm-4">
       {
         !location ? '' : (
-          <div className="panel panel-default">
-            <div className="panel-heading">
-              <h3 className="panel-title">{ head } Reviews:</h3>
-            </div>
-
-            <div className="panel-body">
-              <p><strong>Average Rating:</strong> { location.rating ? location.rating : 'Not rated' }</p>
+          <div>
+            <h3>{ head } Reviews:</h3>
+              <h4><strong>Average Rating:</strong> <span className="rating">{ location.rating ? location.rating : 'Not rated' }</span></h4>
               <h4>Reviews</h4>
                 { location.reviews ? <GoogleReviews reviews={ location.reviews } /> : null }
                 { yelpReviews ? <YelpReviews reviews={ yelpReviews } /> : null }
                 { fsReviews ? <FsReviews reviews={ fsReviews } /> : null }
-              <Link to={ `${ location.shortUrl ? location.shortUrl : location.url }` }>{ head } page</Link>
-            </div>
+              <Link className="linkToPage" to={ `${ location.shortUrl ? location.shortUrl : location.url }` }>Read more on { head }.</Link>
           </div>
           )
       }
@@ -34,11 +29,11 @@ const GoogleReviews = ({ reviews }) => {
           reviews.map(review => {
             return (
               <li key={ review.time }>
-                <ul className="list-unstyled">
-                  <li>Rating: { review.rating }</li>
+                <ul className="card review">
+                  <li><strong>Rating:</strong> { review.rating }</li>
                   <li>By: { review.author_name }</li>
-                  <li>{ review.relative_time_description }</li>
-                  <li>Description: { review.text }</li>
+                  <li><em>{ review.relative_time_description }</em></li>
+                  <li><i className="fa fa-quote-left" aria-hidden="true" /> { review.text } <i className="fa fa-quote-right" aria-hidden="true" /></li>
                 </ul>
                 <br />
               </li>
@@ -58,11 +53,11 @@ const YelpReviews = ({ reviews }) => {
           reviews.map(review => {
             return (
               <li key={ review.time_created }>
-                <ul className="list-unstyled">
-                  <li>Rating: { review.rating }</li>
+                <ul className="card review">
+                  <li><strong>Rating:</strong> { review.rating }</li>
                   <li>By: { review.user.name }</li>
-                  <li>{ review.time_created }</li>
-                  <li>Description: { review.text }</li>
+                  <li><em>{ review.time_created }</em></li>
+                  <li><i className="fa fa-quote-left" aria-hidden="true" /> { review.text } <i className="fa fa-quote-right" aria-hidden="true" /></li>
                 </ul>
                 <br />
               </li>
@@ -82,10 +77,10 @@ const FsReviews = ({ reviews }) => {
           reviews.map(review => {
             return (
               <li key={ review.id }>
-                <ul className="list-unstyled">
+                <ul className="card review">
                   <li>By: { review.user.firstName }</li>
-                  <li>{ new Date(review.createdAt * 1000).toDateString() }</li>
-                  <li>Description: { review.text }</li>
+                  <li><em>{ new Date(review.createdAt * 1000).toDateString() }</em></li>
+                  <li><i className="fa fa-quote-left" aria-hidden="true" /> { review.text } <i className="fa fa-quote-right" aria-hidden="true" /></li>
                 </ul>
                 <br />
               </li>

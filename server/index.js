@@ -50,6 +50,12 @@ app.post('/api/yelp', (req, res, next) => {
     .catch(next)
 });
 
+app.post('/api/yelp/reviews', (req, res, next) => {
+  client.reviews(req.body.id).then(response => {
+    res.send(response.jsonBody.reviews);
+  }).catch(next);
+});
+
 app.use((req, res, next, err) => {
   console.log(err.message);
   // res.status(err.status || 500).send(err.message || 'Internal server error.');

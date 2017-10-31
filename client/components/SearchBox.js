@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { setLocation, searchYelp, searchFoursquare } from '../store';
 import Results from './Results';
-import axios from 'axios';
 
 class SearchBox extends Component {
   constructor(props) {
@@ -54,17 +55,19 @@ class SearchBox extends Component {
   }
 
   render() {
-    const { location, yelpLocation, fsLocation } = this.props;
+    const { location, yelpLocation, yelpReviews, fsLocation, fsReviews } = this.props;
     const { onClick } = this;
 
     return (
       <div>
         <input ref={ input => this.textInput = input } type="text" size="50" />
         <button type="submit" onClick={ onClick }>Submit</button>
+        <h2>{ location.name }</h2>
+        { location.formatted_address } • <Link to={`${ location.website }`}>Company website</Link>
         <div className="row">
           <Results location={ location } head="Google" />
-          <Results location={ yelpLocation } head="Yelp" />
-          <Results location={ fsLocation } head="Foursquare" />
+          <Results location={ yelpLocation } yelpReviews={ yelpReviews } head="Yelp" />
+          <Results location={ fsLocation } fsReviews={ fsReviews } head="Foursquare" />
         </div>
         <div id="map" />
       </div>
@@ -72,8 +75,8 @@ class SearchBox extends Component {
   }
 }
 
-const mapStateToProps = ({ location, yelpLocation, fsLocation }) => {
-  return { location, yelpLocation, fsLocation };
+const mapStateToProps = ({ location, yelpLocation, yelpReviews, fsLocation, fsReviews }) => {
+  return { location, yelpLocation, yelpReviews, fsLocation, fsReviews };
 };
 
 const mapDispatch = { setLocation, searchYelp, searchFoursquare };

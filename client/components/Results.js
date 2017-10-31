@@ -71,7 +71,7 @@ const YelpReviews = ({ reviews }) => {
 
 const FsReviews = ({ reviews }) => {
   return (
-    <ul className="list-unstyled">
+    <ul className="list-unstyled review-list">
       {
         (
           reviews.map(review => {

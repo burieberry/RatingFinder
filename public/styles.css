@@ -37,6 +37,12 @@ h3 {
   font-size: 1.5em;
 }
 
+footer {
+  position: static;
+  bottom: 0;
+  padding: 1em 2em;
+}
+
 #container {
   margin: 0 auto;
   max-width: 1200px;
@@ -70,6 +76,15 @@ h3 {
   position: absolute;
   background-color: #eef;
   font-size: 24px
+}
+
+.container-fluid {
+  min-height: 600px;
+}
+
+.review-list {
+  max-height: 1000px;
+  overflow-y: scroll;
 }
 
 .rating {

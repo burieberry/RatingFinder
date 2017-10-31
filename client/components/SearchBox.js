@@ -68,7 +68,7 @@ class SearchBox extends Component {
           { !yelpLocation.categories ? null :
                 yelpLocation.categories.map(cat => (<span key={ cat.alias }><strong className="badge badge-secondary">{ cat.title }</strong> </span>)) }</p>
           <div className="profile-img">
-            <img src={ `${ yelpLocation.image_url }` } width="250" />
+            { yelpLocation.image_url ? <img src={ `${ yelpLocation.image_url }` } width="250" /> : null }
           </div>
         </div>
         <div className="row">

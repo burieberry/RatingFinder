@@ -66,7 +66,7 @@ export const searchYelp = (location, place) => dispatch => {
   return axios.post('/api/yelp', { latitude: location.lat, longitude: location.lng, term: place })
     .then(res => res.data)
     .then(venue => {
-      console.log(venue)
+      // console.log(venue)
       dispatch(fetchYelpReviews(venue.id));
       dispatch(setYelpLocation(venue));
     })
@@ -76,7 +76,7 @@ export const fetchFoursquareReviews = (id, key, version) => dispatch => {
   return axios.get(`https://api.foursquare.com/v2/venues/${id}/tips?v=${version}&${key}&sort=recent&limit=100`)
     .then(res => res.data)
     .then(reviews => {
-      console.log(reviews.response.tips.items);
+      // console.log(reviews.response.tips.items);
       dispatch(setFsReviews(reviews.response.tips.items));
     })
 }
@@ -85,7 +85,7 @@ const fetchFoursquareDetails = (id, key, version) => dispatch => {
   return axios.get(`https://api.foursquare.com/v2/venues/${id}?v=${version}&${key}`)
     .then(res => res.data)
     .then(details => {
-      console.log(details);
+      // console.log(details);
       dispatch(setFsLocation(details.response.venue));
     })
 }

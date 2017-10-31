@@ -6,22 +6,23 @@ const Results = ({ location, head, yelpReviews, fsReviews }) => {
       <div className="col-xs-12 col-sm-4">
         <h3>{ head } Reviews:</h3>
         <ul className="list-unstyled">
-          <li><strong>Average Rating:</strong> { location.rating }</li>
+          <li><strong>Average Rating:</strong> { location.rating ? location.rating : 'Not rated' }</li>
           <li><strong>Reviews:</strong>
-            { location.reviews ? <GoogleReviews reviews={ location.reviews } head={ head } /> : null }
-            { yelpReviews ? <YelpReviews reviews={ yelpReviews } head={ head } /> : null }
-            { fsReviews ? <FsReviews reviews={ fsReviews } head={ head } /> : null }
+            { location.reviews ? <GoogleReviews reviews={ location.reviews } /> : null }
+            { yelpReviews ? <YelpReviews reviews={ yelpReviews } /> : null }
+            { fsReviews ? <FsReviews reviews={ fsReviews } /> : null }
           </li>
+          <li><Link to={ `${ location.shortUrl ? location.shortUrl : location.url }` }>{ head } page</Link></li>
         </ul>
       </div>
   )
 };
 
-const GoogleReviews = ({ reviews, head }) => {
+const GoogleReviews = ({ reviews }) => {
   return (
     <ul className="list-unstyled">
       {
-        !reviews ? '' : (
+        (
           reviews.map(review => {
             return (
               <li key={ review.time }>
@@ -37,16 +38,15 @@ const GoogleReviews = ({ reviews, head }) => {
           })
         )
       }
-      <li><Link to={ `${ location.url }` }>{ head } page</Link></li>
     </ul>
   );
 };
 
-const YelpReviews = ({ reviews, head }) => {
+const YelpReviews = ({ reviews }) => {
   return (
     <ul className="list-unstyled">
       {
-        !reviews ? '' : (
+        (
           reviews.map(review => {
             return (
               <li key={ review.time_created }>
@@ -62,16 +62,15 @@ const YelpReviews = ({ reviews, head }) => {
           })
         )
       }
-      <li><Link to={ `${ location.url }` }>{ head } page</Link></li>
     </ul>
   );
 };
 
-const FsReviews = ({ reviews, head }) => {
+const FsReviews = ({ reviews }) => {
   return (
     <ul className="list-unstyled">
       {
-        !reviews ? '' : (
+        (
           reviews.map(review => {
             return (
               <li key={ review.id }>
@@ -86,7 +85,6 @@ const FsReviews = ({ reviews, head }) => {
           })
         )
       }
-      <li><Link to={ `${ location.canonicalUrl }` }>{ head } page</Link></li>
     </ul>
   );
 };

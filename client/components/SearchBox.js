@@ -50,6 +50,10 @@ class SearchBox extends Component {
     });
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('next: ', nextProps)
+  // }
+
   componentWillUnmount() {
     this.textInput.onClick('destroy');
   }
@@ -63,7 +67,8 @@ class SearchBox extends Component {
         <input ref={ input => this.textInput = input } type="text" size="50" />
         <button type="submit" onClick={ onClick }>Submit</button>
         <h2>{ location.name }</h2>
-        { location.formatted_address } • <Link to={`${ location.website }`}>Company website</Link>
+        { location.formatted_address }
+        { !location.website ? '' : <span> • <Link to={ `${ location.website }`}>Company website</Link></span> }
         <div className="row">
           <Results location={ location } head="Google" />
           <Results location={ yelpLocation } yelpReviews={ yelpReviews } head="Yelp" />
